@@ -1,4 +1,5 @@
 ﻿using AritclesWebApp.Models.Class;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,32 @@ namespace AritclesWebApp.Models
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Users>().HasData(
-                new Users
-                {
-                    Active = true,
-                    Bio = "",
-                    CreatedAt = DateTime.Now.ToString(),
-                    Email = "admin@webarticles.com",
-                    Id = 1,
-                    Name = "Admin",
-                    Password = "@dM!n123",
-                    Photo = "",
-                    UserName = "admin",
-                    UserTypes = (int)UserTypes.SuperAdmin
-                }
-                );
+            //modelBuilder.Entity<Users>().HasData(
+            //    new Users
+            //    {
+            //        Active = true,
+            //        Bio = "",
+            //        CreatedAt = DateTime.Now.ToString(),
+            //        Email = "admin@webarticles.com",
+            //        Id = 1,
+            //        Name = "Admin",
+            //        Password = "@dM!n123",
+            //        Photo = "",
+            //        UserName = "admin",
+            //        UserTypes = (int)UserTypes.SuperAdmin
+            //    }
+            //    );
+            //modelBuilder.Entity<UserManager<IdentityUser>>().HasData(
+            //    new IdentityUser
+            //    {
+            //        AccessFailedCount = 0,
+            //        ConcurrencyStamp = "",
+            //        Email = "admin@webarticles.com",
+            //        EmailConfirmed = true,
+            //        Id = Guid.NewGuid().ToString(),
+                    
+            //    }
+            //    );
         }
     }
 }

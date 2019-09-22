@@ -18,38 +18,63 @@ namespace AritclesWebApp.Models.MockRepository
 
         public Users Add(Users user)
         {
-            context.Users.Add(user);
-            context.SaveChanges();
-            return user;
-
+            throw new NotImplementedException();
         }
 
         public Users Delete(int id)
         {
-            Users user = context.Users.Find(id);
-            if (user != null)
-            {
-                context.Users.Remove(user);
-                context.SaveChanges();
-            }
-            return (user);
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Users> GetAllUsers()
         {
-            return context.Users;
+            throw new NotImplementedException();
         }
 
         public Users GetUser(int id)
         {
-            return context.Users.Find(id);
+            throw new NotImplementedException();
         }
 
         public Users Update(Users changedUser)
         {
-            var user = context.Users.Attach(changedUser);
-            user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            return changedUser;
+            throw new NotImplementedException();
         }
+
+        //public Users Add(Users user)
+        //{
+        //    context.Users.Add(user);
+        //    context.SaveChanges();
+        //    return user;
+
+        //}
+
+        //public Users Delete(int id)
+        //{
+        //    Users user = context.Users.Find(id);
+        //    if (user != null)
+        //    {
+        //        context.Users.Remove(user);
+        //        context.SaveChanges();
+        //    }
+        //    return (user);
+        //}
+
+        //public IEnumerable<Users> GetAllUsers()
+        //{
+        //    return context.Users;
+        //}
+
+        //public Users GetUser(int id)
+        //{
+        //    return context.Users.Find(id);
+        //}
+
+        //public Users Update(Users changedUser)
+        //{
+        //    var user = context.Users.Attach(changedUser);
+        //    user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //    return changedUser;
+        //}
     }
 }

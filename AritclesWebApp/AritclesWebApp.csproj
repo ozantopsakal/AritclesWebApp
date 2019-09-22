@@ -6,8 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190922002936_initializeDB.cs" />
+    <Compile Remove="Migrations\20190922002936_initializeDB.Designer.cs" />
+    <Compile Remove="Migrations\20190922135051_initializeDB.cs" />
+    <Compile Remove="Migrations\20190922135051_initializeDB.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

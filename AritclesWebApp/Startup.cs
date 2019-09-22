@@ -7,6 +7,7 @@ using AritclesWebApp.Models.Irepository;
 using AritclesWebApp.Models.MockRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,14 +30,19 @@ namespace AritclesWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ArticlesWebAppConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddXmlSerializerFormatters();
+
             services.AddScoped<IArticles, SQLArticles>();
             services.AddScoped<ICategories, SQLCategories>();
             services.AddScoped<IComments, SQLComments>();
             services.AddScoped<IPosts,SQLPosts>();
             services.AddScoped<ITags,SQLTags>();
             services.AddScoped<ITagsArticles,SQLTagsArticles>();
-            services.AddScoped<IUsers,SQLUsers>();
+            //services.AddScoped<IUsers,SQLUsers>();
+
 
         }
 
