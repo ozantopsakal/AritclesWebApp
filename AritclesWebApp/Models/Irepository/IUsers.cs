@@ -13,5 +13,6 @@ namespace AritclesWebApp.Models.Irepository
         Users Add(Users user);
         Users Update(Users changedUser);
         Users Delete(int id);
+        Users Authenticate(string userName, string password);
     }
 }

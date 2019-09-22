@@ -25,9 +25,8 @@ namespace AritclesWebApp.Models.Class
         [Required]
         public bool Active { get; set; }
         [Required]
-        public int UserTypes { get; set; }
-        [Required]
         [MaxLength(50)]
         public string Email { get; set; }
+        public string Token { get; set; }
     }
 }

@@ -10,11 +10,18 @@
     <Compile Remove="Migrations\20190922002936_initializeDB.Designer.cs" />
     <Compile Remove="Migrations\20190922135051_initializeDB.cs" />
     <Compile Remove="Migrations\20190922135051_initializeDB.Designer.cs" />
+    <Compile Remove="Migrations\20190922172340_initializeDB.cs" />
+    <Compile Remove="Migrations\20190922172340_initializeDB.Designer.cs" />
+    <Compile Remove="Migrations\20190922195113_FirstMigration.cs" />
+    <Compile Remove="Migrations\20190922195113_FirstMigration.Designer.cs" />
+    <Compile Remove="Migrations\20190922195419_FirstDbMigration.cs" />
+    <Compile Remove="Migrations\20190922195419_FirstDbMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>

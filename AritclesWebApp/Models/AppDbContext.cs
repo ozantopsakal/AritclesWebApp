@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AritclesWebApp.Models
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -21,12 +21,13 @@ namespace AritclesWebApp.Models
         public DbSet<Posts> Posts { get; set; }
         public DbSet<Tags> Tags { get; set; }
         public DbSet<TagsArticles> TagsArticles { get; set; }
-        //public DbSet<Users> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Seed();
+            modelBuilder.MatchArticlesTags();
         }
     }
 }
