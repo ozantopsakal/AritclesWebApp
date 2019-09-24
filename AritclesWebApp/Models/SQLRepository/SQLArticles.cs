@@ -1,12 +1,13 @@
 ﻿using AritclesWebApp.Models.Class;
 using AritclesWebApp.Models.Irepository;
-using AritclesWebApp.TempClasses;
+using AritclesWebApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace AritclesWebApp.Models.MockRepository
+namespace AritclesWebApp.Models.SQLRepository
 {
     public class SQLArticles : IArticles
     {
@@ -24,7 +25,7 @@ namespace AritclesWebApp.Models.MockRepository
             return article;
         }
 
-        public Articles AddTagsToArticle(int articleid, int tagId)
+        public Articles AddTagToArticle(int articleid, int tagId)
         {
             Articles article = context.Articles.FirstOrDefault(x => x.Id == articleid);
 
@@ -34,6 +35,7 @@ namespace AritclesWebApp.Models.MockRepository
                 TagsId = tagId
             };
             var tag = context.TagsArticles.Add(ta);
+            context.SaveChanges();
             return article;
 
         }
@@ -102,7 +104,7 @@ namespace AritclesWebApp.Models.MockRepository
             if (article != null)
             {
                 var tagList = (from tag in context.Tags
-                               join ta in context.TagsArticles.Where(o => o.ArticlesId == article.Id) on tag.Id equals ta.TagsId 
+                               join ta in context.TagsArticles.Where(o => o.ArticlesId == article.Id) on tag.Id equals ta.TagsId
                                into Tags
                                select new Tags
                                {
@@ -127,7 +129,7 @@ namespace AritclesWebApp.Models.MockRepository
             return model;
         }
 
-        public Articles RemoveTagsToArticle(int articleid, int tagId)
+        public Articles RemoveTagFromArticle(int articleid, int tagId)
         {
             Articles article = context.Articles.FirstOrDefault(x => x.Id == articleid);
 
@@ -137,6 +139,8 @@ namespace AritclesWebApp.Models.MockRepository
                 TagsId = tagId
             };
             var tag = context.TagsArticles.Remove(ta);
+            context.SaveChanges();
+
             return article;
         }
 
@@ -147,9 +151,17 @@ namespace AritclesWebApp.Models.MockRepository
 
         public Articles Update(Articles changedArticle)
         {
-            var article = context.Articles.Attach(changedArticle);
-            article.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
+            if (context.Articles.AsNoTracking().FirstOrDefault(x => x.Id == changedArticle.Id) != null)
+            {
+                var article = context.Articles.Attach(changedArticle);
+                article.State = EntityState.Modified;
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("Makale bulunamadı.");
+            }
+
 
             return changedArticle;
         }

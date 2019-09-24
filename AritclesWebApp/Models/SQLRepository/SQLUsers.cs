@@ -1,6 +1,7 @@
 ﻿using AritclesWebApp.Models.Class;
 using AritclesWebApp.Models.Irepository;
-using AritclesWebApp.TempClasses;
+using AritclesWebApp.Helpers;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,17 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AritclesWebApp.Models.MockRepository
+namespace AritclesWebApp.Models.SQLRepository
 {
     public class SQLUsers : IUsers
     {
         private readonly AppDbContext context;
-        private readonly AppSettings appSettings;
+        private readonly AppSettings _appSettings;
 
-        public SQLUsers(AppDbContext context, AppSettings appSettings)
+        public SQLUsers(AppDbContext context, IOptions<AppSettings> appSettings)
         {
             this.context = context;
-            this.appSettings = appSettings;
+            _appSettings = appSettings.Value;
         }
 
         public Users Add(Users user)
@@ -38,8 +39,10 @@ namespace AritclesWebApp.Models.MockRepository
             {
                 return null;
             }
+
+            // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -81,6 +84,8 @@ namespace AritclesWebApp.Models.MockRepository
         {
             var user = context.Users.Attach(changedUser);
             user.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            context.SaveChanges();
             return changedUser;
         }
     }

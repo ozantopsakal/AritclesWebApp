@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AritclesWebApp.Models.MockRepository
+namespace AritclesWebApp.Models.SQLRepository
 {
     public class SQLTags : ITags
     {

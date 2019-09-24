@@ -1,11 +1,12 @@
 ﻿using AritclesWebApp.Models.Class;
 using AritclesWebApp.Models.Irepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AritclesWebApp.Models.MockRepository
+namespace AritclesWebApp.Models.SQLRepository
 {
     public class SQLComments : IComments
     {
@@ -16,14 +17,21 @@ namespace AritclesWebApp.Models.MockRepository
             this.context = context;
         }
 
-        public Comments Add(Comments comment)
+        public Comments AddAComment(Comments comment)
         {
-            context.Comments.Add(comment);
-            context.SaveChanges();
-            return comment;
+            if (context.Articles.AsNoTracking().FirstOrDefault(x=>x.Id==comment.ArticleId) != null)
+            {
+                context.Comments.Add(comment);
+                context.SaveChanges();
+                return comment;
+            }
+            else
+            {
+                throw new ArgumentException("Makale bulunamadı.");
+            }
         }
 
-        public Comments Delete(int id)
+        public Comments DeleteAComment(int id)
         {
             Comments comment = context.Comments.Find(id);
             if (comment != null)
@@ -39,17 +47,24 @@ namespace AritclesWebApp.Models.MockRepository
             return context.Comments;
         }
 
-        public Comments GetComment(int id)
+        public Comments GetAComment(int id)
         {
             return context.Comments.Find(id);
         }
 
-        public Comments Update(Comments changedComment)
+        public Comments UpdateAComment(Comments changedComment)
         {
-            var comment = context.Comments.Attach(changedComment);
-            comment.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
-            
+            if (context.Comments.AsNoTracking().FirstOrDefault(x => x.Id == changedComment.Id) != null)
+            {
+                var comment = context.Comments.Attach(changedComment);
+                comment.State = EntityState.Modified;
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("Yorum bulunamadı.");
+            }
+
             return changedComment;
         }
     }

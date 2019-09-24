@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AritclesWebApp.Models.Class
 {
-    public class TagsArticles : DbContext
+    public class TagsArticles
     {
         public int Id { get; set; }
         public int TagsId { get; set; }

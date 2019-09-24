@@ -14,7 +14,7 @@ namespace AritclesWebApp.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { System.Diagnostics.Process.GetCurrentProcess().ProcessName, "value2" };
+            return new string[] { "Authentication: /auth", "Methods: /api" };
         }
 
         // GET api/values/5

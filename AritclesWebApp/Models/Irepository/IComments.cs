@@ -8,10 +8,10 @@ namespace AritclesWebApp.Models.Irepository
 {
     public interface IComments
     {
-        Comments GetComment(int id);
+        Comments GetAComment(int id);
         IEnumerable<Comments> GetAllComments();
-        Comments Add(Comments comment);
-        Comments Update(Comments changedComment);
-        Comments Delete(int id);
+        Comments AddAComment(Comments comment);
+        Comments UpdateAComment(Comments changedComment);
+        Comments DeleteAComment(int id);
     }
 }

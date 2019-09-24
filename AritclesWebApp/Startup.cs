@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AritclesWebApp.Models;
 using AritclesWebApp.Models.Irepository;
-using AritclesWebApp.Models.MockRepository;
-using AritclesWebApp.TempClasses;
+using AritclesWebApp.Models.SQLRepository;
+using AritclesWebApp.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,8 +34,12 @@ namespace AritclesWebApp
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ArticlesWebAppConnection")));
 
+            services.AddResponseCaching(options=> {
+                options.UseCaseSensitivePaths = true;
+                options.MaximumBodySize = 1024;
+            });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2).AddXmlSerializerFormatters();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //JWT configurations
             //configure strongly typed settings object
@@ -57,10 +61,10 @@ namespace AritclesWebApp
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey=true,
-                    IssuerSigningKey=new SymmetricSecurityKey(key),
-                    ValidateIssuer=false,
-                    ValidateAudience=false
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
                 };
             });
 
@@ -68,21 +72,22 @@ namespace AritclesWebApp
             services.AddScoped<IArticles, SQLArticles>();
             services.AddScoped<ICategories, SQLCategories>();
             services.AddScoped<IComments, SQLComments>();
-            services.AddScoped<IPosts,SQLPosts>();
-            services.AddScoped<ITags,SQLTags>();
-            services.AddScoped<ITagsArticles,SQLTagsArticles>();
-            services.AddScoped<IUsers,SQLUsers>();
+            services.AddScoped<IPosts, SQLPosts>();
+            services.AddScoped<ITags, SQLTags>();
+            services.AddScoped<ITagsArticles, SQLTagsArticles>();
+            services.AddScoped<IUsers, SQLUsers>();
 
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseResponseCaching();
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }

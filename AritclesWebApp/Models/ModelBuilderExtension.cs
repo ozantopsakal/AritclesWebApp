@@ -24,7 +24,6 @@ namespace AritclesWebApp.Models
                     Password = "@dM!n123",
                     Photo = "",
                     UserName = "admin",
-                    UserTypes = (int)UserTypes.SuperAdmin
                 }
                 );
         }

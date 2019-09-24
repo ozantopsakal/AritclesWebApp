@@ -1,5 +1,5 @@
 ﻿using AritclesWebApp.Models.Class;
-using AritclesWebApp.TempClasses;
+using AritclesWebApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace AritclesWebApp.Models.Irepository
         IEnumerable<Articles> SearchArticles(string word);
         IEnumerable<ArticleTagParameters> GetAllArticlesAndTags();
         ArticleTagParameters GetArticleAndTags(int id);
-        Articles AddTagsToArticle(int articleid,int tagId);
-        Articles RemoveTagsToArticle(int articleid, int tagId);
+        Articles AddTagToArticle(int articleid,int tagId);
+        Articles RemoveTagFromArticle(int articleid, int tagId);
     }
 }

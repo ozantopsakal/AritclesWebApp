@@ -5,37 +5,38 @@ using System.Threading.Tasks;
 using AritclesWebApp.Models.Class;
 using AritclesWebApp.Models.Irepository;
 using AritclesWebApp.Models.Helpers;
+using AritclesWebApp.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 
 namespace AritclesWebApp.Controllers
 {
     [Authorize]
-    [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CommentsController : ControllerBase
+    [Route("api/[controller]/[action]")]
+    public class UsersController : ControllerBase
     {
-        private readonly IComments comments;
-        private readonly ILogger<CommentsController> logger;
         private Results results = new Results();
+        private readonly IUsers users;
+        private readonly ILogger<UsersController> logger;
 
-        public CommentsController(IComments comments, ILogger<CommentsController> logger)
+        public UsersController(IUsers users, IOptions<AppSettings> appSettings,ILogger<UsersController> logger)
         {
-            this.comments = comments;
+            this.users = users;
             this.logger = logger;
         }
 
-        // GET: api/Comments
-        [AllowAnonymous]
+        // GET: api/Users
         [HttpGet]
         [ResponseCache(Duration = 30)]
-        public Results GetCommentList()
+        public Results GetAllUsers()
         {
             try
             {
-                results.Result = comments.GetAllComments();
+                results.Result = users.GetAllUsers();
                 results.Code = 0;
                 results.ErrorMessage = string.Empty;
             }
@@ -48,15 +49,14 @@ namespace AritclesWebApp.Controllers
             return results;
         }
 
-        // GET: api/Comments/5
-        [AllowAnonymous]
+        // GET: api/Users/5
         [HttpGet]
-        [ResponseCache(Duration = 30)]
-        public Results GetAComment(int id)
+        [ResponseCache(Duration =30)]
+        public Results GetAUser(int id)
         {
             try
             {
-                results.Result = comments.GetAComment(id);
+                results.Result = users.GetUser(id);
                 results.Code = 0;
                 results.ErrorMessage = string.Empty;
             }
@@ -69,15 +69,14 @@ namespace AritclesWebApp.Controllers
             return results;
         }
 
-        // POST: api/Comments
-        [AllowAnonymous]
+        // POST: api/Users
         [HttpPost]
-        [ResponseCache(Duration = 30)]
-        public Results AddAComment(Comments comment)
+        [ResponseCache(Duration =30)]
+        public Results AddAUser(Users user)
         {
             try
             {
-                results.Result = comments.AddAComment(comment);
+                results.Result = users.Add(user);
                 results.Code = 0;
                 results.ErrorMessage = string.Empty;
             }
@@ -90,15 +89,14 @@ namespace AritclesWebApp.Controllers
             return results;
         }
 
-        // PUT: api/Comments/5
-        [AllowAnonymous]
+        // PUT: api/Users/5
         [HttpPost]
-        [ResponseCache(Duration = 30)]
-        public Results UpdateAComment(Comments comment)
+        [ResponseCache(Duration =30)]
+        public Results UpdateAUser(Users user)
         {
             try
             {
-                results.Result = comments.UpdateAComment(comment);
+                results.Result = users.Update(user);
                 results.Code = 0;
                 results.ErrorMessage = string.Empty;
             }
@@ -113,12 +111,12 @@ namespace AritclesWebApp.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpGet]
-        [ResponseCache(Duration = 30)]
-        public Results DeleteAComment(int id)
+        [ResponseCache(Duration =30)]
+        public Results DeleteAUser(int id)
         {
             try
             {
-                var response = comments.DeleteAComment(id);
+                var response = users.Delete(id);
                 results.Code = 0;
                 results.ErrorMessage = string.Empty;
             }
